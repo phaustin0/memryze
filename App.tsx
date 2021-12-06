@@ -1,21 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { Text, SafeAreaView } from "react-native";
+import Navigator from "./Navigator";
+import { StatusBar } from "expo-status-bar";
+import { useFonts } from "expo-font";
+import { AuthProvider } from "./hooks/useAuth";
+import { ThemeProvider } from "./hooks/useTheme";
+import { AppearanceProvider } from "react-native-appearance";
+import { NavigationContainer } from "@react-navigation/native";
 
-export default function App() {
+const App = () => {
+  let [fontsLoaded] = useFonts({
+    bold: require("./assets/fonts/Dongle-Bold.ttf"),
+    thin: require("./assets/fonts/Dongle-Regular.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return (
+      <SafeAreaView>
+        <Text>loading</Text>
+      </SafeAreaView>
+    );
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AppearanceProvider>
+      <ThemeProvider>
+        <NavigationContainer>
+          <AuthProvider>
+            <Navigator />
+            <StatusBar style="auto" />
+          </AuthProvider>
+        </NavigationContainer>
+      </ThemeProvider>
+    </AppearanceProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;

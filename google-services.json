@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "117569706241",
+    "firebase_url": "https://memryze-6d67b-default-rtdb.firebaseio.com",
+    "project_id": "memryze-6d67b",
+    "storage_bucket": "memryze-6d67b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117569706241:android:53cc1ba2ee60849d796300",
+        "android_client_info": {
+          "package_name": "host.exp.exponent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "117569706241-54v4of4n7vdbfm95e48k3kvsqqg9b2qv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-rWZKVxIbZGEveTgVKet1zKKnODGjnD8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "117569706241-54v4of4n7vdbfm95e48k3kvsqqg9b2qv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "117569706241-duu669m8evqpq82colhkqgs6ds0ao06a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "host.exp.exponent"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
