@@ -17,9 +17,10 @@ import CreateQuestionModal from "./screens/modals/CreateQuestionModal";
 import LoginScreen from "./screens/LoginScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { TabParamList, StackParamList } from "./types";
 
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator<TabParamList>();
+const Stack = createNativeStackNavigator<StackParamList>();
 const pathToIcon = "./assets/icons";
 
 const Tabs = () => {
