@@ -7,12 +7,10 @@ export type AuthenticationProps = {
   user?: any;
   error?: any;
   name: string;
-  imageUrl: string;
   loading: boolean;
   hasAccount: boolean;
   signOut: () => void;
   signInWithGoogle: () => Promise<void>;
-  setImageUrl: React.Dispatch<React.SetStateAction<string>>;
   setName: React.Dispatch<React.SetStateAction<string>>;
   setHasAccount: React.Dispatch<React.SetStateAction<boolean>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
