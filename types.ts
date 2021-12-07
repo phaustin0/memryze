@@ -29,6 +29,27 @@ export type ColorTheme = {
   text: string;
 };
 
+export type DataProps = {
+  subjects: SubjectType[];
+  addSubject: (name: string, type: string, color: string) => Promise<void>;
+  editSubject: (
+    id: string,
+    name: string,
+    type: string,
+    color: string
+  ) => Promise<void>;
+  deleteSubject: (id: string) => Promise<void>;
+};
+
+export type SubjectType = {
+  id: string;
+  userId: string;
+  name: string;
+  type: string;
+  color: string;
+  totalPills: number;
+};
+
 export type TabParamList = {
   HomeScreen: undefined;
   PillsScreen: undefined;

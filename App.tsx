@@ -4,6 +4,7 @@ import Navigator from "./Navigator";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import { AuthProvider } from "./hooks/useAuth";
+import { DataProvider } from "./hooks/useData";
 import { ThemeProvider } from "./hooks/useTheme";
 import { AppearanceProvider } from "react-native-appearance";
 import { NavigationContainer } from "@react-navigation/native";
@@ -26,8 +27,10 @@ const App = () => {
       <ThemeProvider>
         <NavigationContainer>
           <AuthProvider>
-            <Navigator />
-            <StatusBar style="auto" />
+            <DataProvider>
+              <Navigator />
+              <StatusBar style="auto" />
+            </DataProvider>
           </AuthProvider>
         </NavigationContainer>
       </ThemeProvider>
