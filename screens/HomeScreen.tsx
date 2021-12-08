@@ -18,7 +18,7 @@ import { getTimeOfDay, isSameDay } from "../functions";
 import { HomeScreenProps as Props } from "../types";
 
 const HomeScreen = ({ route, navigation }: Props) => {
-  const { user } = useAuth();
+  const { user, name } = useAuth();
   const { theme } = useTheme();
   const [username, setUsername] = useState("");
   const [pills, setPills] = useState([]);
@@ -41,8 +41,15 @@ const HomeScreen = ({ route, navigation }: Props) => {
       const data = snapshot.data();
       setUsername(data.displayName);
     };
-    getUser();
-  }, []);
+
+    if (name === "") {
+      console.log("getting");
+      getUser();
+    } else {
+      console.log("setting");
+      setUsername(name);
+    }
+  }, [name]);
 
   useEffect(() => {
     // TODO: get pills from firestore
@@ -64,7 +71,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
       {/* Header */}
       <Header text="mem" blueText="ryze">
         {/* Profile Picture */}
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("ProfileScreen")}>
           <Image
             source={{ uri: user.photoURL }}
             style={{ width: 40, height: 40, borderRadius: 20 }}

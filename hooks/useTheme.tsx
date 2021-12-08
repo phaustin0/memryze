@@ -1,5 +1,6 @@
 import React, { useContext, createContext, useState, useEffect } from "react";
 import { useColorScheme } from "react-native-appearance";
+import { setStatusBarStyle } from "expo-status-bar";
 import { lightTheme, darkTheme } from "../lib/colorTheme";
 import { ThemeProps } from "../types";
 
@@ -23,7 +24,10 @@ export const ThemeProvider = ({ children }: Props) => {
   const defaultTheme: ThemeProps = {
     isDark,
     theme: isDark ? darkTheme : lightTheme,
-    setTheme: (theme: string) => setIsDark(theme === "dark"),
+    setTheme: (theme: string) => {
+      setIsDark(theme === "dark");
+      setStatusBarStyle(theme === "dark" ? "light" : "dark");
+    },
   };
 
   return (
