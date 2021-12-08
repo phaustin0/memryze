@@ -61,7 +61,7 @@ export type StackParamList = {
   LoginScreen: undefined;
   HomeScreen: undefined;
   PillScreen: undefined;
-  SubjectScreen: undefined;
+  SubjectScreen: { id: string };
   CreatePillScreen: undefined;
   CreateUserModal: undefined;
   EditUserModal: undefined;

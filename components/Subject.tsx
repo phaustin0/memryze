@@ -29,9 +29,8 @@ const Subject = ({ navigation, id, name, color, pills, type }: Props) => {
         marginBottom: 15,
         backgroundColor: subjectColor,
       }}
-      // TODO: navigate to subject screen with proper parameters
       // @ts-ignore
-      onPress={() => navigation.navigate("SubjectScreen")}
+      onPress={() => navigation.navigate("SubjectScreen", { id: id })}
     >
       {/* Title */}
       <Text

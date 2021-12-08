@@ -1,3 +1,5 @@
+import { SubjectType } from "./types";
+
 export const getTimeOfDay = (): string => {
   const currentHour = new Date().getHours();
 
@@ -80,4 +82,14 @@ export const capitalizeSubjectType = (subjectName: string): string => {
   const capitalizedName =
     subjectName[0].toUpperCase() + subjectName.substring(1);
   return capitalizedName;
+};
+
+export const getSubjectById = (
+  subjectsArray: SubjectType[],
+  subjectId: string
+): SubjectType => {
+  const returnedSubjects = subjectsArray.filter(
+    subject => subject.id === subjectId
+  );
+  return returnedSubjects[0];
 };
