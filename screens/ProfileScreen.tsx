@@ -9,16 +9,24 @@ import {
 } from "react-native";
 import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";
+import useData from "../hooks/useData";
 import useTheme from "../hooks/useTheme";
 import { Feather } from "@expo/vector-icons";
 import { ProfileScreenProps as Props } from "../types";
 
 const ProfileScreen = ({ route, navigation }: Props) => {
-  const { user, signOut } = useAuth();
+  const { user, signOut, resetAuthentication } = useAuth();
+  const { resetData } = useData();
   const { isDark, theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
     setTheme(isDark ? "light" : "dark");
+  };
+
+  const signOutAndResetContext = () => {
+    signOut();
+    resetData();
+    resetAuthentication();
   };
 
   return (
@@ -105,7 +113,7 @@ const ProfileScreen = ({ route, navigation }: Props) => {
         </View>
 
         <TouchableOpacity
-          onPress={signOut}
+          onPress={signOutAndResetContext}
           style={{
             backgroundColor: "#ff4545",
             marginVertical: 20,

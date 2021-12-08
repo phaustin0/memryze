@@ -33,7 +33,6 @@ const AuthProvider = ({ children }: Props) => {
   const [error, setError] = useState<any>(null);
   const [user, setUser] = useState<any>(null);
   const [name, setName] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
   const [loadingInitial, setLoadingInitial] = useState(true);
   const [loading, setLoading] = useState(false);
 
@@ -77,6 +76,11 @@ const AuthProvider = ({ children }: Props) => {
       .finally(() => setLoading(false));
   };
 
+  const resetAuthentication = () => {
+    setName("");
+    setError(null);
+  };
+
   const memoedValue = useMemo(
     () => ({
       user,
@@ -86,10 +90,9 @@ const AuthProvider = ({ children }: Props) => {
       signInWithGoogle,
       name,
       setName,
-      imageUrl,
-      setImageUrl,
+      resetAuthentication,
     }),
-    [user, loading, error, name, imageUrl]
+    [user, loading, error, name]
   );
 
   return (

@@ -11,8 +11,8 @@ export type AuthenticationProps = {
   hasAccount: boolean;
   signOut: () => void;
   signInWithGoogle: () => Promise<void>;
+  resetAuthentication: () => void;
   setName: React.Dispatch<React.SetStateAction<string>>;
-  setHasAccount: React.Dispatch<React.SetStateAction<boolean>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -39,6 +39,7 @@ export type DataProps = {
     color: string
   ) => Promise<void>;
   deleteSubject: (id: string) => Promise<void>;
+  resetData: () => void;
 };
 
 export type SubjectType = {

@@ -42,10 +42,16 @@ const DataProvider = ({ children }: Props) => {
       });
       setSubjects(tmpSubjectArray);
     };
+    if (!user) return;
     getSubjects();
-  }, []);
+  }, [user]);
 
-  // --- FUNCTIONS --- //
+  const resetData = () => {
+    // TODO: reset pills when signing out
+    setSubjects([]);
+  };
+
+  // --- DATA FUNCTIONS --- //
   const addSubject = async (name: string, type: string, color: string) => {
     const addedSubjectRef = doc(collection(db, "subjects"));
     const addedSubject: SubjectType = {
@@ -104,10 +110,11 @@ const DataProvider = ({ children }: Props) => {
 
   const memoedValue = useMemo(
     () => ({
-      subjects: subjects,
-      addSubject: addSubject,
-      editSubject: editSubject,
-      deleteSubject: deleteSubject,
+      subjects,
+      addSubject,
+      editSubject,
+      deleteSubject,
+      resetData,
     }),
     [subjects]
   );

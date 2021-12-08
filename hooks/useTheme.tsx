@@ -2,6 +2,7 @@ import React, { useContext, createContext, useState, useEffect } from "react";
 import { useColorScheme } from "react-native-appearance";
 import { setStatusBarStyle } from "expo-status-bar";
 import { lightTheme, darkTheme } from "../lib/colorTheme";
+import useAuth from "./useAuth";
 import { ThemeProps } from "../types";
 
 const ThemeContext = createContext<ThemeProps>({
@@ -15,11 +16,12 @@ type Props = {
 
 export const ThemeProvider = ({ children }: Props) => {
   const colorScheme = useColorScheme();
+  const { user } = useAuth();
   const [isDark, setIsDark] = useState(colorScheme === "dark");
 
   useEffect(() => {
     setIsDark(colorScheme === "dark");
-  }, [colorScheme]);
+  }, [colorScheme, user]);
 
   const defaultTheme: ThemeProps = {
     isDark,
