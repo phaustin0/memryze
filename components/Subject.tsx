@@ -31,7 +31,7 @@ const Subject = ({ navigation, id, name, color, pills, type }: Props) => {
       }}
       // TODO: navigate to subject screen with proper parameters
       // @ts-ignore
-      onPress={() => navigation.navigate("Subject")}
+      onPress={() => navigation.navigate("SubjectScreen")}
     >
       {/* Title */}
       <Text
@@ -47,13 +47,13 @@ const Subject = ({ navigation, id, name, color, pills, type }: Props) => {
       </Text>
 
       {/* Small pill */}
-      <View style={{ marginTop: -13 }}>
+      <View style={{ marginTop: -13, marginRight: "auto" }}>
         <SmallPill text={getPillText(pills)} />
       </View>
 
       {/* Subject logo */}
       <View style={{ position: "absolute", right: 30, bottom: 15 }}>
-        <SubjectLogo type="type" color={subjectColor} />
+        <SubjectLogo type={type} color={color} />
       </View>
     </TouchableOpacity>
   );

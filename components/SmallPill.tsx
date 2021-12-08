@@ -13,8 +13,7 @@ const SmallPill = ({ text }: { text: string }) => {
         borderWidth: 1.5,
         borderColor: isDark ? theme.text : theme.background,
         borderRadius: 10,
-        marginRight: "5",
-        marginTop: -13,
+        marginRight: 5,
       }}
     >
       <Text

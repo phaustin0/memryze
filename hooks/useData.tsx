@@ -35,10 +35,12 @@ const DataProvider = ({ children }: Props) => {
       ).catch(err => {
         throw new Error(err);
       });
+      let tmpSubjectArray: SubjectType[] = [];
       returnedSnapshots.forEach(snapshot => {
         const subject = snapshot.data() as SubjectType;
-        setSubjects([...subjects, subject]);
+        tmpSubjectArray = [subject, ...tmpSubjectArray];
       });
+      setSubjects(tmpSubjectArray);
     };
     getSubjects();
   }, []);

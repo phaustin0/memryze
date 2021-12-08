@@ -73,3 +73,11 @@ export const getPillText = (numberOfPills: number): string => {
     numberOfPills === 1 ? `${numberOfPills} pill` : `${numberOfPills} pills`;
   return returnedText;
 };
+
+export const capitalizeSubjectType = (subjectName: string): string => {
+  if (subjectName === "it") return "IT";
+
+  const capitalizedName =
+    subjectName[0].toUpperCase() + subjectName.substring(1);
+  return capitalizedName;
+};
