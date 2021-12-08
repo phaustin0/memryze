@@ -197,7 +197,7 @@ const SubjectLogo = ({ type, color }: { type: string; color: string }) => {
   if (type === "art") return <ArtLogo color={color} />;
   if (type === "music") return <MusicLogo color={color} />;
   if (type === "science") return <ScienceLogo color={color} />;
-  if (type === "languages") return <LanguageLogo color={color} />;
+  if (type === "language") return <LanguageLogo color={color} />;
   if (type === "humanities") return <HumanitiesLogo color={color} />;
   if (type === "math") return <MathematicsLogo color={color} />;
   if (type === "religion") return <ReligionLogo color={color} />;

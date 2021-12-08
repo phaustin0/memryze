@@ -66,7 +66,7 @@ export type StackParamList = {
   CreateUserModal: undefined;
   EditUserModal: undefined;
   CreateSubjectModal: undefined;
-  EditSubjectModal: undefined;
+  EditSubjectModal: { id: string; name: string; type: string; color: string };
   CreateQuestionModal: undefined;
 };
 

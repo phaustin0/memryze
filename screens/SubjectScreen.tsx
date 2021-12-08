@@ -19,7 +19,7 @@ const SubjectScreen = ({ route, navigation }: Props) => {
   const { user } = useAuth();
   const { subjects } = useData();
   const { isDark, theme } = useTheme();
-  const { name, color } = getSubjectById(subjects, id);
+  const { name, type, color } = getSubjectById(subjects, id);
   const subjectColor = getColor(color);
 
   return (
@@ -68,6 +68,14 @@ const SubjectScreen = ({ route, navigation }: Props) => {
           {/* Edit subject */}
           <TouchableOpacity
             style={{ marginRight: 20, transform: [{ translateY: 3 }] }}
+            onPress={() =>
+              navigation.navigate("EditSubjectModal", {
+                id: id,
+                name: name,
+                type: type,
+                color: color,
+              })
+            }
           >
             <Feather name="edit" size={25} color={theme.secondary} />
           </TouchableOpacity>
