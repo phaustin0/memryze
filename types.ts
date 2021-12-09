@@ -34,11 +34,91 @@ export type DataProps = {
   addSubject: (name: string, type: string, color: string) => Promise<void>;
   editSubject: (
     id: string,
-    name: string,
-    type: string,
-    color: string
+    name?: string,
+    type?: string,
+    color?: string
   ) => Promise<void>;
   deleteSubject: (id: string) => Promise<void>;
+
+  pills: PillType[];
+  addPill: (
+    name: string,
+    subjectId: string,
+    questions: QuestionType[]
+  ) => Promise<void>;
+  editPill: (id: string, name?: string) => Promise<void>;
+  deletePill: (id: string) => Promise<void>;
+
+  questions: QuestionType[];
+  addShortQuestion: (
+    pillId: string,
+    name: string,
+    answer: string
+  ) => Promise<void>;
+  addTruthQuestion: (
+    pillId: string,
+    name: string,
+    answer: boolean
+  ) => Promise<void>;
+  addMultipleChoiceQuestion: (
+    pillId: string,
+    name: string,
+    answer: string,
+    option2: string,
+    option3: string,
+    option4: string
+  ) => Promise<void>;
+  editShortQuestion: (
+    id: string,
+    name: string,
+    answer: string
+  ) => Promise<void>;
+  editTruthQuestion: (
+    id: string,
+    name: string,
+    answer: boolean
+  ) => Promise<void>;
+  editMultipleChoiceQuestion: (
+    id: string,
+    name: string,
+    answer: string,
+    option2: string,
+    option3: string,
+    option4: string
+  ) => Promise<void>;
+  deleteQuestion: (id: string) => Promise<void>;
+
+  tmpQuestions: QuestionType[];
+  addTemporaryShortQuestion: (name: string, answer: string) => void;
+  addTemporaryTruthQuestion: (name: string, answer: boolean) => void;
+  addTemporaryMultipleChoiceQuestion: (
+    name: string,
+    answer: string,
+    option2: string,
+    option3: string,
+    option4: string
+  ) => void;
+  editTemporaryShortQuestion: (
+    id: string,
+    name?: string,
+    answer?: string
+  ) => void;
+  editTemporaryTruthQuestion: (
+    id: string,
+    name?: string,
+    answer?: boolean
+  ) => void;
+  editTemporaryMultipleChoiceQuestion: (
+    id: string,
+    name: string,
+    answer: string,
+    option2: string,
+    option3: string,
+    option4: string
+  ) => void;
+  deleteTemporaryQuestion: (id: string) => void;
+  resetTemporaryQuestions: () => void;
+
   resetData: () => void;
 };
 
@@ -48,7 +128,48 @@ export type SubjectType = {
   name: string;
   type: string;
   color: string;
-  totalPills: number;
+};
+
+export type PillType = {
+  id: string;
+  userId: string;
+  subjectId: string;
+  name: string;
+  level: number;
+  dueDate: Date;
+  correctQuestions: number;
+};
+
+export type QuestionType =
+  | ShortAnswerQuestion
+  | TruthQuestion
+  | MultipleChoiceQuestion;
+
+export type ShortAnswerQuestion = {
+  id: string;
+  pillId: string;
+  type: string;
+  name: string;
+  answer: string;
+};
+
+export type TruthQuestion = {
+  id: string;
+  pillId: string;
+  type: string;
+  name: string;
+  answer: boolean;
+};
+
+export type MultipleChoiceQuestion = {
+  id: string;
+  pillId: string;
+  type: string;
+  name: string;
+  answer: string;
+  option2: string;
+  option3: string;
+  option4: string;
 };
 
 export type TabParamList = {
@@ -63,12 +184,12 @@ export type StackParamList = {
   HomeScreen: undefined;
   PillScreen: undefined;
   SubjectScreen: { id: string };
-  CreatePillScreen: undefined;
+  CreatePillScreen: { subjectId: string };
   CreateUserModal: undefined;
   EditUserModal: undefined;
   CreateSubjectModal: undefined;
   EditSubjectModal: { id: string; name: string; type: string; color: string };
-  CreateQuestionModal: undefined;
+  CreateQuestionModal: { subjectId: string };
 };
 
 export type HomeScreenProps = CompositeScreenProps<
@@ -120,7 +241,7 @@ export type EditSubjectModalProps = NativeStackScreenProps<
   StackParamList,
   "EditSubjectModal"
 >;
-export type CreateQuestionModal = NativeStackScreenProps<
+export type CreateQuestionModalProps = NativeStackScreenProps<
   StackParamList,
   "CreateQuestionModal"
 >;

@@ -1,4 +1,4 @@
-import { SubjectType } from "./types";
+import { SubjectType, PillType, QuestionType } from "./types";
 
 export const getTimeOfDay = (): string => {
   const currentHour = new Date().getHours();
@@ -92,4 +92,38 @@ export const getSubjectById = (
     subject => subject.id === subjectId
   );
   return returnedSubjects[0];
+};
+
+export const getPillsBySubjectId = (
+  pillsArray: PillType[],
+  subjectId: string
+): PillType[] => {
+  const returnedPills = pillsArray.filter(pill => pill.subjectId === subjectId);
+  return returnedPills;
+};
+
+export const getQuestionsByPillId = (
+  questionsArray: QuestionType[],
+  pillId: string
+): QuestionType[] => {
+  const returnedQuestions = questionsArray.filter(
+    question => question.pillId === pillId
+  );
+  return returnedQuestions;
+};
+
+export const getFutureDay = (
+  startingDate: Date = new Date(),
+  numberOfDays: number = 1
+): Date => {
+  let futureDay = new Date();
+  futureDay.setDate(startingDate.getDate() + numberOfDays);
+  return futureDay;
+};
+
+export const typeToText = (type: string): string => {
+  if (type === "short") return "Short Answer";
+  if (type === "truth") return "True or False";
+  if (type === "multiple") return "MCQ";
+  return "";
 };

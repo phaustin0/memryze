@@ -10,6 +10,7 @@ import {
 import useAuth from "../hooks/useAuth";
 import useTheme from "../hooks/useTheme";
 import Header from "../components/Header";
+import { useIsFocused } from "@react-navigation/core";
 import { useFocusEffect } from "@react-navigation/native";
 import { db } from "../firebase";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
@@ -22,6 +23,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
   const { theme } = useTheme();
   const [username, setUsername] = useState("");
   const [pills, setPills] = useState([]);
+  const isFocused = useIsFocused();
   const timeOfDay = getTimeOfDay();
 
   useFocusEffect(() =>
@@ -42,14 +44,13 @@ const HomeScreen = ({ route, navigation }: Props) => {
       setUsername(data.displayName);
     };
 
+    if (!isFocused) return;
     if (name === "") {
-      console.log("getting");
       getUser();
     } else {
-      console.log("setting");
       setUsername(name);
     }
-  }, [name]);
+  }, [name, isFocused]);
 
   useEffect(() => {
     // TODO: get pills from firestore

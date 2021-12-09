@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -9,6 +9,7 @@ import {
 import useAuth from "../hooks/useAuth";
 import useTheme from "../hooks/useTheme";
 import useData from "../hooks/useData";
+import { useIsFocused } from "@react-navigation/core";
 import { Entypo, Feather } from "@expo/vector-icons";
 import { getColor, getSubjectById } from "../functions";
 import { SubjectScreenProps as Props } from "../types";
@@ -17,10 +18,16 @@ import { SubjectScreenProps as Props } from "../types";
 const SubjectScreen = ({ route, navigation }: Props) => {
   const { id } = route.params;
   const { user } = useAuth();
-  const { subjects } = useData();
+  const { subjects, resetTemporaryQuestions } = useData();
   const { isDark, theme } = useTheme();
+  const isFocused = useIsFocused();
   const { name, type, color } = getSubjectById(subjects, id);
   const subjectColor = getColor(color);
+
+  useEffect(() => {
+    if (!isFocused) return;
+    resetTemporaryQuestions();
+  }, [isFocused]);
 
   return (
     <SafeAreaView style={{ backgroundColor: theme.background, flex: 1 }}>
@@ -88,9 +95,12 @@ const SubjectScreen = ({ route, navigation }: Props) => {
             <Feather name="filter" size={25} color={theme.secondary} />
           </TouchableOpacity>
 
-          {/* TODO: add pill adding functionality */}
           {/* Add Pill */}
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("CreatePillScreen", { subjectId: id })
+            }
+          >
             <Feather name="plus" size={30} color={theme.secondary} />
           </TouchableOpacity>
         </View>

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import { getColor, getPillText } from "../functions";
+import { getColor, getPillText, getPillsBySubjectId } from "../functions";
+import useData from "../hooks/useData";
 import useTheme from "../hooks/useTheme";
 import SubjectLogo from "./SubjectLogo";
 import SmallPill from "./SmallPill";
@@ -15,9 +16,13 @@ type Props = {
   type: string;
 };
 
-const Subject = ({ navigation, id, name, color, pills, type }: Props) => {
+const Subject = ({ navigation, id, name, color, type }: Props) => {
+  const { pills } = useData();
   const { isDark, theme } = useTheme();
+
   const subjectColor = getColor(color);
+  const subjectPills = getPillsBySubjectId(pills, id);
+  const numberOfPills = subjectPills.length;
 
   return (
     <TouchableOpacity
@@ -47,7 +52,7 @@ const Subject = ({ navigation, id, name, color, pills, type }: Props) => {
 
       {/* Small pill */}
       <View style={{ marginTop: -13, marginRight: "auto" }}>
-        <SmallPill text={getPillText(pills)} />
+        <SmallPill text={getPillText(numberOfPills)} />
       </View>
 
       {/* Subject logo */}
