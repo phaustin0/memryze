@@ -9,7 +9,7 @@ import { EditSubjectModalProps as Props } from "../../types";
 
 const EditSubjectModal = ({ route, navigation }: Props) => {
   const { isDark, theme } = useTheme();
-  const { editSubject, deleteSubject } = useData();
+  const { editSubject, deleteSubject, pills, questions } = useData();
   const { id, name, type, color } = route.params;
   const [subjectName, setSubjectName] = useState(name);
   const [subjectType, setSubjectType] = useState(type);
@@ -25,10 +25,9 @@ const EditSubjectModal = ({ route, navigation }: Props) => {
   };
 
   const remove = async () => {
-    // TODO: remove all pills when deleting subject
     // @ts-ignore
     navigation.navigate("SubjectsScreen");
-    await deleteSubject(id).catch(err => {
+    await deleteSubject(id, pills, questions).catch(err => {
       throw new Error(err);
     });
   };

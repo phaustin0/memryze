@@ -113,7 +113,61 @@ const SubjectScreen = ({ route, navigation }: Props) => {
             <Pill key={pill.id} navigation={navigation} id={pill.id} />
           ))
         ) : (
-          <Text style={{ color: theme.text }}>no pills</Text>
+          <View
+            style={{ marginLeft: "auto", marginRight: "auto", marginTop: 30 }}
+          >
+            <Text
+              style={{
+                fontFamily: "thin",
+                fontSize: 42,
+                textAlign: "center",
+                color: theme.secondary,
+              }}
+            >
+              no pills found
+            </Text>
+
+            <View>
+              <Text
+                style={{
+                  fontFamily: "thin",
+                  fontSize: 38,
+                  textAlign: "center",
+                  color: theme.secondary,
+                  marginTop: 20,
+                }}
+              >
+                Press the{" "}
+                <Text style={{ color: subjectColor }}>
+                  '<Feather name="plus" size={26} color={subjectColor} />'
+                </Text>{" "}
+                icon or
+              </Text>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("CreatePillScreen", { subjectId: id })
+                }
+                style={{
+                  paddingVertical: 6,
+                  paddingHorizontal: 20,
+                  borderRadius: 15,
+                  backgroundColor: subjectColor,
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontFamily: "thin",
+                    fontSize: 34,
+                    color: isDark ? theme.text : theme.background,
+                    transform: [{ translateY: 1.5 }],
+                  }}
+                >
+                  create one here
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         )}
       </ScrollView>
     </SafeAreaView>

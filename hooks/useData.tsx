@@ -17,7 +17,11 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { getFutureDay, getQuestionsByPillId } from "../functions";
+import {
+  getFutureDay,
+  getPillsBySubjectId,
+  getQuestionsByPillId,
+} from "../functions";
 import {
   DataProps,
   SubjectType,
@@ -148,8 +152,17 @@ const DataProvider = ({ children }: Props) => {
     setSubjects([newSubject, ...restOfSubjects]); // update context layer
   };
 
-  const deleteSubject = async (id: string) => {
+  const deleteSubject = async (
+    id: string,
+    pillsArray: PillType[],
+    questionsArray: QuestionType[]
+  ) => {
     const restOfSubjects = subjects.filter(subject => subject.id !== id);
+
+    const subjectPills = getPillsBySubjectId(pillsArray, id);
+    await subjectPills.forEach(async pill => {
+      await deletePill(pill.id, questionsArray);
+    });
 
     await deleteDoc(doc(db, "subjects", id)) // delete from firestore
       .catch(err => {
@@ -207,9 +220,13 @@ const DataProvider = ({ children }: Props) => {
     setPills([newPill, ...restOfPills]);
   };
 
-  const deletePill = async (id: string) => {
-    // TODO: remove all questions
+  const deletePill = async (id: string, questionsArray: QuestionType[]) => {
     const restOfPills = pills.filter(pill => pill.id !== id);
+
+    const pillQuestions = getQuestionsByPillId(questionsArray, id);
+    await pillQuestions.forEach(async question => {
+      await deleteQuestion(question.id);
+    });
 
     await deleteDoc(doc(db, "pills", id)).catch(err => {
       throw new Error(err);
@@ -228,17 +245,16 @@ const DataProvider = ({ children }: Props) => {
 
     // add all questions to firestore
     await questionsArray.forEach(async question => {
-      if (questionIds.includes(question.id)) {
+      let newQuestion = question;
+      newQuestion.pillId = pillId;
+      if (questionIds.includes(newQuestion.id)) {
         // if in firestore aleady
-        console.log("in firestore");
         const newQuestionRef = doc(db, "questions", question.id);
-        await setDoc(newQuestionRef, question).catch(err => {
+        await setDoc(newQuestionRef, newQuestion).catch(err => {
           throw new Error(err);
         });
       } else {
-        console.log("not in firestore");
         const newQuestionRef = doc(collection(db, "questions"));
-        const newQuestion = question;
         newQuestion.id = newQuestionRef.id;
         await setDoc(newQuestionRef, newQuestion).catch(err => {
           throw new Error(err);
@@ -250,6 +266,15 @@ const DataProvider = ({ children }: Props) => {
       question => question.pillId !== pillId
     );
     setQuestions([...questionsArray, ...restOfQuestions]);
+  };
+
+  const deleteQuestion = async (id: string) => {
+    const restOfQuestions = questions.filter(question => question.id !== id);
+
+    await deleteDoc(doc(db, "questions", id)).catch(err => {
+      throw new Error(err);
+    });
+    setQuestions(restOfQuestions);
   };
 
   // --- temporary questions --- //
@@ -390,6 +415,7 @@ const DataProvider = ({ children }: Props) => {
 
       questions,
       addQuestions,
+      deleteQuestion,
 
       tmpQuestions,
       addTemporaryShortQuestion,

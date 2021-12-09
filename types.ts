@@ -38,7 +38,11 @@ export type DataProps = {
     type?: string,
     color?: string
   ) => Promise<void>;
-  deleteSubject: (id: string) => Promise<void>;
+  deleteSubject: (
+    id: string,
+    pillsArray: PillType[],
+    questionsArray: QuestionType[]
+  ) => Promise<void>;
 
   pills: PillType[];
   addPill: (
@@ -47,44 +51,12 @@ export type DataProps = {
     questions: QuestionType[]
   ) => Promise<void>;
   editPill: (id: string, name?: string) => Promise<void>;
-  deletePill: (id: string) => Promise<void>;
+  deletePill: (id: string, questionsArray: QuestionType[]) => Promise<void>;
 
   questions: QuestionType[];
-  addShortQuestion: (
-    pillId: string,
-    name: string,
-    answer: string
-  ) => Promise<void>;
-  addTruthQuestion: (
-    pillId: string,
-    name: string,
-    answer: boolean
-  ) => Promise<void>;
-  addMultipleChoiceQuestion: (
-    pillId: string,
-    name: string,
-    answer: string,
-    option2: string,
-    option3: string,
-    option4: string
-  ) => Promise<void>;
-  editShortQuestion: (
-    id: string,
-    name: string,
-    answer: string
-  ) => Promise<void>;
-  editTruthQuestion: (
-    id: string,
-    name: string,
-    answer: boolean
-  ) => Promise<void>;
-  editMultipleChoiceQuestion: (
-    id: string,
-    name: string,
-    answer: string,
-    option2: string,
-    option3: string,
-    option4: string
+  addQuestions: (
+    questionsArray: QuestionType[],
+    pillId: string
   ) => Promise<void>;
   deleteQuestion: (id: string) => Promise<void>;
 

@@ -44,7 +44,6 @@ const AuthProvider = ({ children }: Props) => {
         } else {
           setUser(null);
         }
-        console.log("hello");
         setLoadingInitial(false);
       }),
     []
