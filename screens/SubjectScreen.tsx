@@ -6,22 +6,23 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
+import Pill from "../components/Pill";
 import useAuth from "../hooks/useAuth";
 import useTheme from "../hooks/useTheme";
 import useData from "../hooks/useData";
 import { useIsFocused } from "@react-navigation/core";
 import { Entypo, Feather } from "@expo/vector-icons";
-import { getColor, getSubjectById } from "../functions";
+import { getColor, getSubjectById, getPillsBySubjectId } from "../functions";
 import { SubjectScreenProps as Props } from "../types";
 
-// TODO: add pills
 const SubjectScreen = ({ route, navigation }: Props) => {
   const { id } = route.params;
   const { user } = useAuth();
-  const { subjects, resetTemporaryQuestions } = useData();
+  const { subjects, pills, resetTemporaryQuestions } = useData();
   const { isDark, theme } = useTheme();
   const isFocused = useIsFocused();
   const { name, type, color } = getSubjectById(subjects, id);
+  const subjectPills = getPillsBySubjectId(pills, id);
   const subjectColor = getColor(color);
 
   useEffect(() => {
@@ -106,7 +107,15 @@ const SubjectScreen = ({ route, navigation }: Props) => {
         </View>
       </View>
 
-      {/* TODO: add all pills here */}
+      <ScrollView style={{ paddingHorizontal: 20 }}>
+        {subjectPills.length > 0 ? (
+          subjectPills.map(pill => (
+            <Pill key={pill.id} navigation={navigation} id={pill.id} />
+          ))
+        ) : (
+          <Text style={{ color: theme.text }}>no pills</Text>
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 };

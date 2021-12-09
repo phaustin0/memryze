@@ -30,7 +30,6 @@ import {
 
 type Props = { children: React.ReactNode };
 
-// TODO: add pills to data context layer
 const DataContext = createContext<Partial<DataProps>>({});
 const DataProvider = ({ children }: Props) => {
   const { user } = useAuth();
@@ -87,7 +86,6 @@ const DataProvider = ({ children }: Props) => {
       let tmpPillArray: PillType[] = [];
       returnedSnapshots.forEach(async snapshot => {
         const pill = snapshot.data() as PillType;
-        await getQuestions(pill.id);
         tmpPillArray = [pill, ...tmpPillArray];
       });
       setPills(tmpPillArray);
@@ -96,8 +94,6 @@ const DataProvider = ({ children }: Props) => {
     if (!user) return;
     getPills();
   }, [user]);
-
-  useEffect(() => console.log(questions), [questions]);
 
   const resetData = () => {
     setPills([]);
@@ -212,6 +208,7 @@ const DataProvider = ({ children }: Props) => {
   };
 
   const deletePill = async (id: string) => {
+    // TODO: remove all questions
     const restOfPills = pills.filter(pill => pill.id !== id);
 
     await deleteDoc(doc(db, "pills", id)).catch(err => {

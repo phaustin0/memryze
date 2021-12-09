@@ -1,5 +1,6 @@
 import { SubjectType, PillType, QuestionType } from "./types";
 
+// --- UTILITY FUNCTIONS --- //
 export const getTimeOfDay = (): string => {
   const currentHour = new Date().getHours();
 
@@ -84,6 +85,28 @@ export const capitalizeSubjectType = (subjectName: string): string => {
   return capitalizedName;
 };
 
+export const getLevelText = (level: number): string => {
+  if (level == 11 || level == 12 || level == 13) return `${level}th level`;
+  if (level % 10 == 1) return `${level}st level`;
+  if (level % 10 == 2) return `${level}nd level`;
+  if (level % 10 == 3) return `${level}rd level`;
+  return `${level}th level`;
+};
+
+export const getDateFromJSON = (date: string): Date => {
+  return new Date(date);
+};
+
+export const getFutureDay = (
+  startingDate: Date = new Date(),
+  numberOfDays: number = 1
+): string => {
+  let futureDay = new Date();
+  futureDay.setDate(startingDate.getDate() + numberOfDays);
+  return futureDay.toJSON();
+};
+
+// --- DATA FUNCTIONS --- //
 export const getSubjectById = (
   subjectsArray: SubjectType[],
   subjectId: string
@@ -92,6 +115,14 @@ export const getSubjectById = (
     subject => subject.id === subjectId
   );
   return returnedSubjects[0];
+};
+
+export const getPillById = (
+  pillsArray: PillType[],
+  pillId: string
+): PillType => {
+  const returnedPills = pillsArray.filter(pill => pill.id === pillId);
+  return returnedPills[0];
 };
 
 export const getPillsBySubjectId = (
@@ -112,18 +143,45 @@ export const getQuestionsByPillId = (
   return returnedQuestions;
 };
 
-export const getFutureDay = (
-  startingDate: Date = new Date(),
-  numberOfDays: number = 1
-): Date => {
-  let futureDay = new Date();
-  futureDay.setDate(startingDate.getDate() + numberOfDays);
-  return futureDay;
-};
-
 export const typeToText = (type: string): string => {
   if (type === "short") return "Short Answer";
   if (type === "truth") return "True or False";
   if (type === "multiple") return "MCQ";
   return "";
+};
+
+export const getTodayPills = (pillsArray: PillType[]): PillType[] => {
+  const todaysDate = new Date();
+
+  const todayPills = pillsArray.filter(pill =>
+    isSameDay(getDateFromJSON(pill.dueDate), todaysDate)
+  );
+  return todayPills;
+};
+
+export const getTomorrowPills = (pillsArray: PillType[]): PillType[] => {
+  const tomorrowsDate = getFutureDay(new Date());
+
+  const tomorrowsPills = pillsArray.filter(pill =>
+    isSameDay(getDateFromJSON(pill.dueDate), getDateFromJSON(tomorrowsDate))
+  );
+  return tomorrowsPills;
+};
+
+export const getWeekPills = (pillsArray: PillType[]): PillType[] => {
+  const thirdDate = getFutureDay(new Date(), 2);
+  const fourthDate = getFutureDay(new Date(), 3);
+  const fifthDate = getFutureDay(new Date(), 4);
+  const sixthDate = getFutureDay(new Date(), 5);
+  const seventhDate = getFutureDay(new Date(), 6);
+
+  const weekPills = pillsArray.filter(
+    pill =>
+      isSameDay(getDateFromJSON(pill.dueDate), getDateFromJSON(thirdDate)) ||
+      isSameDay(getDateFromJSON(pill.dueDate), getDateFromJSON(fourthDate)) ||
+      isSameDay(getDateFromJSON(pill.dueDate), getDateFromJSON(fifthDate)) ||
+      isSameDay(getDateFromJSON(pill.dueDate), getDateFromJSON(sixthDate)) ||
+      isSameDay(getDateFromJSON(pill.dueDate), getDateFromJSON(seventhDate))
+  );
+  return weekPills;
 };

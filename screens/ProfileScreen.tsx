@@ -23,8 +23,8 @@ const ProfileScreen = ({ route, navigation }: Props) => {
     setTheme(isDark ? "light" : "dark");
   };
 
-  const signOutAndResetContext = () => {
-    signOut();
+  const signOutAndResetContext = async () => {
+    await signOut();
     resetData();
     resetAuthentication();
   };

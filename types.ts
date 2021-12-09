@@ -136,7 +136,7 @@ export type PillType = {
   subjectId: string;
   name: string;
   level: number;
-  dueDate: Date;
+  dueDate: string;
   correctQuestions: number;
 };
 

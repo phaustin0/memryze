@@ -44,6 +44,7 @@ const AuthProvider = ({ children }: Props) => {
         } else {
           setUser(null);
         }
+        console.log("hello");
         setLoadingInitial(false);
       }),
     []
@@ -69,11 +70,9 @@ const AuthProvider = ({ children }: Props) => {
       .finally(() => setLoading(false));
   };
 
-  const signOut = () => {
+  const signOut = async () => {
     setLoading(true);
-    logOut(auth)
-      .catch(err => setError(err))
-      .finally(() => setLoading(false));
+    await logOut(auth).catch(err => setError(err));
   };
 
   const resetAuthentication = () => {
