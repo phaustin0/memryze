@@ -162,6 +162,7 @@ export type StackParamList = {
   CreateSubjectModal: undefined;
   EditSubjectModal: { id: string; name: string; type: string; color: string };
   CreateQuestionModal: { subjectId: string };
+  EditQuestionModal: { questionId: string };
 };
 
 export type HomeScreenProps = CompositeScreenProps<
@@ -216,4 +217,8 @@ export type EditSubjectModalProps = NativeStackScreenProps<
 export type CreateQuestionModalProps = NativeStackScreenProps<
   StackParamList,
   "CreateQuestionModal"
+>;
+export type EditQuestionModalProps = NativeStackScreenProps<
+  StackParamList,
+  "EditQuestionModal"
 >;

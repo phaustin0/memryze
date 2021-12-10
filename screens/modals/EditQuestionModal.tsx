@@ -1,29 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   ScrollView,
   Text,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from "react-native";
 import QuestionTypeButton from "../../components/QuestionTypeButton";
 import TruthAnswerButton from "../../components/TruthAnswerButton";
 import Option from "../../components/Option";
 import useData from "../../hooks/useData";
 import useTheme from "../../hooks/useTheme";
-import { CreateQuestionModalProps as Props } from "../../types";
+import { Feather } from "@expo/vector-icons";
+import { getQuestionById } from "../../functions";
+import { EditQuestionModalProps as Props } from "../../types";
 
 type Answer = string | boolean;
 
-const CreateQuestionModal = ({ route, navigation }: Props) => {
+const EditQuestionModal = ({ route, navigation }: Props) => {
   const {
-    addTemporaryShortQuestion,
-    addTemporaryTruthQuestion,
-    addTemporaryMultipleChoiceQuestion,
+    tmpQuestions,
+    editTemporaryShortQuestion,
+    editTemporaryTruthQuestion,
+    editTemporaryMultipleChoiceQuestion,
+    deleteTemporaryQuestion,
   } = useData();
   const { isDark, theme } = useTheme();
-  const { subjectId } = route.params;
+  const { questionId } = route.params;
+  const question = getQuestionById(tmpQuestions, questionId);
 
+  const firstLoading = useRef(true);
   const [questionName, setQuestionName] = useState("");
   const [questionType, setQuestionType] = useState("");
   const [answer, setAnswer] = useState<Answer>("");
@@ -33,6 +40,7 @@ const CreateQuestionModal = ({ route, navigation }: Props) => {
   const [option4, setOption4] = useState("");
 
   useEffect(() => {
+    if (firstLoading) return;
     setAnswer("");
     setOption1("");
     setOption2("");
@@ -40,13 +48,31 @@ const CreateQuestionModal = ({ route, navigation }: Props) => {
     setOption4("");
   }, [questionType]);
 
-  const addQuestion = () => {
-    if (questionType === "short") {
-      addTemporaryShortQuestion(questionName, answer as string);
-    } else if (questionType === "truth") {
-      addTemporaryTruthQuestion(questionName, answer as boolean);
+  useEffect(() => {
+    setQuestionType(question.type);
+    setQuestionName(question.name);
+    if (question.type === "short" || question.type === "truth") {
+      setAnswer(question.answer);
     } else {
-      addTemporaryMultipleChoiceQuestion(
+      setOption1(question.answer as string);
+      // @ts-ignore
+      setOption2(question.option2);
+      // @ts-ignore
+      setOption3(question.option3);
+      // @ts-ignore
+      setOption4(question.option4);
+    }
+    firstLoading.current = false;
+  }, []);
+
+  const editQuestion = () => {
+    if (questionType === "short") {
+      editTemporaryShortQuestion(questionId, questionName, answer as string);
+    } else if (questionType === "truth") {
+      editTemporaryTruthQuestion(questionId, questionName, answer as boolean);
+    } else {
+      editTemporaryMultipleChoiceQuestion(
+        questionId,
         questionName,
         option1,
         option2,
@@ -54,8 +80,20 @@ const CreateQuestionModal = ({ route, navigation }: Props) => {
         option4
       );
     }
-    navigation.navigate("CreatePillScreen", { subjectId: subjectId });
+    navigation.goBack();
   };
+
+  const deleteQuestion = () => {
+    deleteTemporaryQuestion(questionId);
+    navigation.goBack();
+  };
+
+  const confirmDelete = () =>
+    Alert.alert(
+      "Delete Subject",
+      `Are you sure you want to delete ${questionName}?`,
+      [{ text: "Yes", onPress: () => deleteQuestion() }, { text: "No" }]
+    );
 
   const emptyAnswer = () => {
     if (typeof answer === "string") return answer === "";
@@ -86,7 +124,7 @@ const CreateQuestionModal = ({ route, navigation }: Props) => {
             color: theme.text,
           }}
         >
-          add
+          edit
         </Text>
         <Text
           style={{
@@ -282,7 +320,7 @@ const CreateQuestionModal = ({ route, navigation }: Props) => {
       {/* Add question button */}
       <TouchableOpacity
         disabled={incompleteForm}
-        onPress={addQuestion}
+        onPress={editQuestion}
         style={{
           position: "absolute",
           bottom: 50,
@@ -300,11 +338,19 @@ const CreateQuestionModal = ({ route, navigation }: Props) => {
             transform: [{ translateY: 2 }],
           }}
         >
-          add question
+          edit question
         </Text>
+      </TouchableOpacity>
+
+      {/* Delete question */}
+      <TouchableOpacity
+        style={{ position: "absolute", top: 27, right: 17 }}
+        onPress={confirmDelete}
+      >
+        <Feather name="trash-2" size={25} color="red" />
       </TouchableOpacity>
     </View>
   );
 };
 
-export default CreateQuestionModal;
+export default EditQuestionModal;

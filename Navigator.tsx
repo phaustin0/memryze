@@ -14,6 +14,7 @@ import CreateSubjectModal from "./screens/modals/CreateSubjectModal";
 import EditSubjectModal from "./screens/modals/EditSubjectModal";
 import EditUserModal from "./screens/modals/EditUserModal";
 import CreateQuestionModal from "./screens/modals/CreateQuestionModal";
+import EditQuestionModal from "./screens/modals/EditQuestionModal";
 import LoginScreen from "./screens/LoginScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -150,6 +151,7 @@ const Navigator = () => {
           name="CreateQuestionModal"
           component={CreateQuestionModal}
         />
+        <Stack.Screen name="EditQuestionModal" component={EditQuestionModal} />
       </Stack.Group>
     </Stack.Navigator>
   );

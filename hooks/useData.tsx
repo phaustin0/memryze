@@ -65,9 +65,9 @@ const DataProvider = ({ children }: Props) => {
 
   // get user's pills and questions
   useEffect(() => {
-    const getQuestions = async (pillId: string) => {
+    const getQuestions = async () => {
       const returnedSnapshots = await getDocs(
-        collection(db, "pills", pillId, "questions")
+        collection(db, "questions")
       ).catch(err => {
         throw new Error(err);
       });
@@ -97,6 +97,7 @@ const DataProvider = ({ children }: Props) => {
 
     if (!user) return;
     getPills();
+    getQuestions();
   }, [user]);
 
   const resetData = () => {

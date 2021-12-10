@@ -125,6 +125,16 @@ export const getPillById = (
   return returnedPills[0];
 };
 
+export const getQuestionById = (
+  questionsArray: QuestionType[],
+  questionId: string
+): QuestionType => {
+  const returnedQuestions = questionsArray.filter(
+    question => question.id === questionId
+  );
+  return returnedQuestions[0];
+};
+
 export const getPillsBySubjectId = (
   pillsArray: PillType[],
   subjectId: string

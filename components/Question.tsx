@@ -16,6 +16,11 @@ const Question = ({ question, navigation, color }: Props) => {
 
   return (
     <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("EditQuestionModal", {
+          questionId: question.id,
+        })
+      }
       style={{
         backgroundColor: subjectColor,
         marginBottom: 20,
