@@ -24,7 +24,7 @@ const PillsScreen = ({ route, navigation }: Props) => {
     setTodayPills(getTodayPills(pills));
     setTomorrowPills(getTomorrowPills(pills));
     setWeekPills(getWeekPills(pills));
-  }, []);
+  }, [pills]);
 
   return (
     <SafeAreaView style={{ backgroundColor: theme.background, flex: 1 }}>

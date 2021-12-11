@@ -13,12 +13,14 @@ import { doc, setDoc, serverTimestamp } from "@firebase/firestore";
 import { CreateUserModalProps as Props } from "../../types";
 
 const CreateUserModal = ({ route, navigation }: Props) => {
+  const [buttonPressed, setButtonPressed] = useState(false);
   const [username, setUsername] = useState("");
   const { user, setName } = useAuth();
   const { isDark, theme } = useTheme();
   const incompleteForm = username === "";
 
   const createUser = async () => {
+    setButtonPressed(true);
     await setDoc(doc(db, "users", user.uid), {
       id: user.uid,
       displayName: username,
@@ -87,7 +89,7 @@ const CreateUserModal = ({ route, navigation }: Props) => {
 
       {/* Button */}
       <TouchableOpacity
-        disabled={incompleteForm}
+        disabled={incompleteForm || buttonPressed}
         onPress={createUser}
         style={{
           position: "absolute",

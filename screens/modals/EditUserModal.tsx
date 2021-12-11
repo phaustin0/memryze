@@ -7,12 +7,14 @@ import { doc, updateDoc } from "@firebase/firestore";
 import { EditUserModalProps as Props } from "../../types";
 
 const EditUserModal = ({ route, navigation }: Props) => {
+  const [buttonPressed, setButtonPressed] = useState(false);
   const [username, setUsername] = useState("");
   const { user, setName } = useAuth();
   const { isDark, theme } = useTheme();
   const incompleteForm = username === "";
 
   const editUser = async () => {
+    setButtonPressed(true);
     const userSnapshot = await updateDoc(doc(db, "users", user.uid), {
       displayName: username,
     }).catch(err => {
@@ -82,7 +84,7 @@ const EditUserModal = ({ route, navigation }: Props) => {
 
       {/* edit button */}
       <TouchableOpacity
-        disabled={incompleteForm}
+        disabled={incompleteForm || buttonPressed}
         onPress={editUser}
         style={{
           position: "absolute",

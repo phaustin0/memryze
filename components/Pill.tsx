@@ -29,7 +29,10 @@ const Pill = ({ navigation, id }: Props) => {
   const { isDark, theme } = useTheme();
   const { subjects, pills } = useData();
 
-  const { name: pillName, dueDate, level, subjectId } = getPillById(pills, id);
+  const pill = getPillById(pills, id);
+  if (pill === null) return <View></View>;
+  const { name: pillName, level, dueDate, subjectId } = pill;
+
   const { name: subjectName, color } = getSubjectById(subjects, subjectId);
   const pillColor = getColor(color);
   const pillDueDate = getDateFromJSON(dueDate);

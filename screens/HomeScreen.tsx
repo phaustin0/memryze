@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -35,7 +35,7 @@ const HomeScreen = ({ route, navigation }: Props) => {
     })
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const getUser = async () => {
       const snapshot = await getDoc(doc(db, "users", user.uid)).catch(err => {
         throw new Error(err);
@@ -55,9 +55,8 @@ const HomeScreen = ({ route, navigation }: Props) => {
   }, [name, isFocused]);
 
   useEffect(() => {
-    const pillsDueToday = getTodayPills(pills);
-    setTodayPills(pillsDueToday);
-  }, []);
+    setTodayPills(getTodayPills(pills));
+  }, [pills]);
 
   return (
     <SafeAreaView

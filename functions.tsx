@@ -120,8 +120,9 @@ export const getSubjectById = (
 export const getPillById = (
   pillsArray: PillType[],
   pillId: string
-): PillType => {
+): PillType | null => {
   const returnedPills = pillsArray.filter(pill => pill.id === pillId);
+  if (returnedPills.length < 1) return null;
   return returnedPills[0];
 };
 

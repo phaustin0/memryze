@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -19,6 +19,7 @@ const CreatePillScreen = ({ route, navigation }: Props) => {
   const { subjects, addPill, tmpQuestions } = useData();
 
   const [pillName, setPillName] = useState("");
+  const [buttonPressed, setButtonPressed] = useState(false);
   const incompleteForm = pillName === "" || tmpQuestions.length < 3;
 
   const { subjectId } = route.params;
@@ -26,6 +27,7 @@ const CreatePillScreen = ({ route, navigation }: Props) => {
   const subjectColor = getColor(color);
 
   const addNewPill = async () => {
+    setButtonPressed(true);
     await addPill(pillName, subjectId, tmpQuestions);
     navigation.navigate("SubjectScreen", { id: subjectId });
   };
@@ -153,7 +155,7 @@ const CreatePillScreen = ({ route, navigation }: Props) => {
       {/* Add pill button */}
       <View style={{ margin: 20 }}>
         <TouchableOpacity
-          disabled={incompleteForm}
+          disabled={incompleteForm || buttonPressed}
           onPress={addNewPill}
           style={{
             backgroundColor: incompleteForm ? theme.secondary : theme.primary,

@@ -15,10 +15,12 @@ const CreateSubjectModal = ({ route, navigation }: Props) => {
   const { isDark, theme } = useTheme();
   const { addSubject } = useData();
 
+  const [buttonPressed, setButtonPressed] = useState(false);
   const incompleteForm =
     subjectName === "" || subjectType === "" || subjectColor === "";
 
   const addNewSubject = async () => {
+    setButtonPressed(true);
     await addSubject(subjectName, subjectType, subjectColor);
     // @ts-ignore
     navigation.navigate("SubjectsScreen");
@@ -286,7 +288,7 @@ const CreateSubjectModal = ({ route, navigation }: Props) => {
       {/* Add subject button */}
       <TouchableOpacity
         onPress={addNewSubject}
-        disabled={incompleteForm}
+        disabled={incompleteForm || buttonPressed}
         style={{
           paddingVertical: 10,
           paddingHorizontal: 50,

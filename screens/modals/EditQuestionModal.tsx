@@ -31,6 +31,7 @@ const EditQuestionModal = ({ route, navigation }: Props) => {
   const question = getQuestionById(tmpQuestions, questionId);
 
   const firstLoading = useRef(true);
+  const [buttonPressed, setButtonPressed] = useState(false);
   const [questionName, setQuestionName] = useState("");
   const [questionType, setQuestionType] = useState("");
   const [answer, setAnswer] = useState<Answer>("");
@@ -66,6 +67,7 @@ const EditQuestionModal = ({ route, navigation }: Props) => {
   }, []);
 
   const editQuestion = () => {
+    setButtonPressed(true);
     if (questionType === "short") {
       editTemporaryShortQuestion(questionId, questionName, answer as string);
     } else if (questionType === "truth") {
@@ -319,7 +321,7 @@ const EditQuestionModal = ({ route, navigation }: Props) => {
 
       {/* Add question button */}
       <TouchableOpacity
-        disabled={incompleteForm}
+        disabled={incompleteForm || buttonPressed}
         onPress={editQuestion}
         style={{
           position: "absolute",

@@ -24,6 +24,7 @@ const CreateQuestionModal = ({ route, navigation }: Props) => {
   const { isDark, theme } = useTheme();
   const { subjectId } = route.params;
 
+  const [buttonPressed, setButtonPressed] = useState(false);
   const [questionName, setQuestionName] = useState("");
   const [questionType, setQuestionType] = useState("");
   const [answer, setAnswer] = useState<Answer>("");
@@ -41,6 +42,7 @@ const CreateQuestionModal = ({ route, navigation }: Props) => {
   }, [questionType]);
 
   const addQuestion = () => {
+    setButtonPressed(true);
     if (questionType === "short") {
       addTemporaryShortQuestion(questionName, answer as string);
     } else if (questionType === "truth") {
@@ -281,7 +283,7 @@ const CreateQuestionModal = ({ route, navigation }: Props) => {
 
       {/* Add question button */}
       <TouchableOpacity
-        disabled={incompleteForm}
+        disabled={incompleteForm || buttonPressed}
         onPress={addQuestion}
         style={{
           position: "absolute",

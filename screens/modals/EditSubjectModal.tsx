@@ -14,10 +14,12 @@ const EditSubjectModal = ({ route, navigation }: Props) => {
   const [subjectName, setSubjectName] = useState(name);
   const [subjectType, setSubjectType] = useState(type);
   const [subjectColor, setSubjectColor] = useState(color);
+  const [buttonPressed, setButtonPressed] = useState(false);
   const incompleteForm =
     subjectName === "" || subjectType === "" || subjectColor === "";
 
   const edit = async () => {
+    setButtonPressed(true);
     await editSubject(id, subjectName, subjectType, subjectColor).catch(err => {
       throw new Error(err);
     });
@@ -300,7 +302,7 @@ const EditSubjectModal = ({ route, navigation }: Props) => {
       {/* Edit subject button */}
       <TouchableOpacity
         onPress={edit}
-        disabled={incompleteForm}
+        disabled={incompleteForm || buttonPressed}
         style={{
           paddingVertical: 10,
           paddingHorizontal: 50,
